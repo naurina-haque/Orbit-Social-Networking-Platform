@@ -268,6 +268,7 @@
 .hp-post-action svg { width: 21px; height: 21px; }
 .hp-post-action.hp-liked { color: #3B5BDB; }
 .hp-post-action.hp-liked svg { fill: #3B5BDB; stroke: #3B5BDB; }
+.hp-post-action:disabled { cursor: default; opacity: 0.85; }
 
 .hp-comment-row {
     display: flex;
@@ -284,6 +285,44 @@
     padding: 8px 14px;
     font-size: 13.5px;
     color: #64748B;
+    font-family: inherit;
+    outline: none;
+}
+
+.hp-comment-input:focus {
+    outline: none;
+    border-color: #3B5BDB;
+}
+
+/* ---------- COMMENTS LIST ---------- */
+.comments-list {
+    margin-top: 10px;
+}
+
+.comment-item {
+    display: flex;
+    gap: 8px;
+    margin-bottom: 8px;
+    align-items: flex-start;
+}
+
+.comment-bubble {
+    background: #F2F6FB;
+    border-radius: 14px;
+    padding: 8px 14px;
+    flex: 1;
+}
+
+.comment-author {
+    font-size: 13px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.comment-text {
+    font-size: 13.5px;
+    color: #1E293B;
+    margin-top: 2px;
 }
 
 /* ---------- RIGHT SIDEBAR ---------- */
@@ -302,13 +341,14 @@
 }
 
 .hp-stat-num {
-    font-size: 19px;
-    font-weight: 800;
+    font-size: 20px;
+    font-weight: 1000;
     color: #3B5BDB;
 }
 
 .hp-stat-label {
-    font-size: 11.5px;
+    font-size: 15px;
+    font-weight: 600;
     color: #64748B;
     margin-top: 2px;
 }

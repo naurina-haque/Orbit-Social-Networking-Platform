@@ -69,7 +69,7 @@
                     </span>
                 </button>
                 <div class="dropdown" id="profileDropdown">
-                    <a href="{{ route('profile.edit') }}" class="dropdown-item">Profile</a>
+                    <a href="{{ route('profile.show', auth()->id()) }}" class="dropdown-item">Profile</a>
                     <a href="#" class="dropdown-item">Settings</a>
                     <form method="POST" action="{{ route('logout') }}">
                         @csrf

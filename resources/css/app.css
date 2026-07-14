@@ -1,5 +1,8 @@
-@import './navbar.css';
-@import './home.css';
+@import "./navbar.css";
+@import "./home.css";
+@import "./create_post.css";
+@import "./profile-view.css";
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
