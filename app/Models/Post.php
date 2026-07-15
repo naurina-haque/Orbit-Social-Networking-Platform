@@ -40,4 +40,8 @@ class Post extends Model
    {
     return $this->shares()->where('user_id', $userId)->exists();
    }
+   public function savedBy()
+{
+    return $this->hasMany(SavedPost::class);
+}
 }

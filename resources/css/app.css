@@ -2,6 +2,10 @@
 @import "./home.css";
 @import "./create_post.css";
 @import "./profile-view.css";
+@import "./notification.css";
+@import "./friend_requests.css";
+@import "./friends.css";
+
 @tailwind base;
 @tailwind components;
 @tailwind utilities;

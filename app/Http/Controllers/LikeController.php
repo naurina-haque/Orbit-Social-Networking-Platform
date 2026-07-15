@@ -22,6 +22,15 @@ class LikeController extends Controller
                 'post_id' => $post->id,
             ]);
             $liked = true;
+             if($post->user_id != auth()->id()) {
+        Notification::create([
+            'user_id' => $post->user_id,
+            'from_user_id' => auth()->id(),
+            'type' => 'like',
+            'post_id' => $post->id,
+            'message' => auth()->user()->name . ' liked your post',
+        ]);
+    }
         }
 
         return response()->json([

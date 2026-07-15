@@ -20,6 +20,15 @@ class CommentController extends Controller
             'content' => $request->content,
         ]);
 
+        if($post->user_id != auth()->id()) {
+        Notification::create([
+            'user_id' => $post->user_id,
+            'from_user_id' => auth()->id(),
+            'type' => 'comment',
+            'post_id' => $post->id,
+            'message' => auth()->user()->name . ' commented on your post',
+        ]);
+
         return response()->json([
             'id' => $comment->id,
             'content' => $comment->content,
@@ -27,4 +36,5 @@ class CommentController extends Controller
             'count' => $post->comments()->count(),
         ]);
     }
+}
 }

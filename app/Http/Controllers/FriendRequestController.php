@@ -51,4 +51,14 @@ class FriendRequestController extends Controller
             'pending_count' => auth()->user()->pendingRequests()->count(),
         ]);
     }
+    public function index()
+{
+    $pendingRequests = FriendRequest::where('receiver_id', auth()->id())
+        ->where('status', 'pending')
+        ->with('sender')
+        ->latest()
+        ->get();
+
+    return view('friend_requests', compact('pendingRequests'));
+}
 }

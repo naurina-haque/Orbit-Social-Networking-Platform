@@ -84,5 +84,8 @@ class User extends Authenticatable
         ->where('status', 'pending')
         ->exists();
     }
-
+   public function savedPosts()
+{
+    return $this->hasMany(SavedPost::class);
+}
 }

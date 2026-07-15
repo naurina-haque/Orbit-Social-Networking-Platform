@@ -31,7 +31,7 @@
                 </svg>
             </a>
 
-            <a href="#" class="nav-link">
+            <a href="{{ route('friends') }}" class="nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/>
                     <circle cx="10" cy="7" r="4"/>
@@ -41,18 +41,19 @@
             </a>
 
              <!-- Friend Requests -->
-            <a href="#" class="nav-link">
+            <a href="{{ route('friend-requests') }}" class="nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M20 8v6M23 11h-6"/><path d="M9 11a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-1a7 7 0 0114 0v1"/></svg>
                 <span class="badge">5</span>
 
             </a>
 
             <!-- Notifications -->
-            <a href="#" class="nav-link">
+            <a href="{{ route('notifications') }}" class="nav-link">
                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
                     <path d="M13.7 21a2 2 0 01-3.4 0"/>
                 </svg>
                 <span class="badge">5</span>
+                
             </a>
         </div>
 
