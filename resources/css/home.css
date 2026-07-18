@@ -61,8 +61,8 @@
 
 
 
-.hp-name { font-weight: 600; font-size: 16px; }
-.hp-handle { font-size: 13px; color: #64748B; }
+.hp-name { font-weight: 600; font-size: 17px; }
+.hp-handle { font-size: 14px; color: #64748B; }
 
 .hp-nav-item {
     display: flex;
@@ -70,7 +70,7 @@
     gap: 12px;
     padding: 12px 14px;
     border-radius: 12px;
-    font-size: 16px;
+    font-size: 17px;
     font-weight: 500;
     margin-top: 2px;
     text-decoration: none;
@@ -100,7 +100,7 @@
     margin-left: auto;
     background: #d30303;
     color: #fff;
-    font-size: 11px;
+    font-size: 13px;
     font-weight: 700;
     padding: 2px 7px;
     border-radius: 10px;
@@ -131,7 +131,7 @@
     border-radius: 24px;
     padding: 13px 18px;
     color: #64748B;
-    font-size: 16px;
+    font-size: 17px;
     cursor: pointer;
 }
 
@@ -150,7 +150,7 @@
     display: flex;
     align-items: center;
     gap: 8px;
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #64748B;
     padding: 8px 12px;
@@ -175,8 +175,13 @@
 }
 
 .hp-post-meta { flex: 1; }
-.hp-post-name { font-size: 16px; font-weight: 600; }
-.hp-post-time { font-size: 13px; color: #64748B; }
+.hp-post-name { font-size: 17px; font-weight: 600; }
+.hp-post-time { font-size: 14px; color: #64748B; }
+
+.hp-post-menu {
+    position: relative;
+    flex-shrink: 0;
+}
 
 .hp-post-more {
     width: 32px;
@@ -193,8 +198,53 @@
 .hp-post-more:hover { background: #EAF1FB; }
 .hp-post-more svg { width: 18px; height: 18px; stroke: #64748B; }
 
+.hp-dropdown {
+    display: none;
+    position: absolute;
+    top: calc(100% + 8px);
+    right: 0;
+    min-width: 180px;
+    padding: 6px;
+    background: #FFFFFF;
+    border: 1px solid #E2E8F0;
+    border-radius: 12px;
+    box-shadow: 0 10px 24px rgba(15, 23, 42, 0.12);
+    z-index: 40;
+}
+
+.hp-dropdown.show {
+    display: block;
+}
+
+.hp-dropdown form {
+    margin: 0;
+}
+
+.hp-dropdown .dropdown-item {
+    display: block;
+    width: 100%;
+    text-align: left;
+    padding: 10px 12px;
+    font-size: 15px;
+    color: #1E293B;
+    background: none;
+    border: none;
+    border-radius: 10px;
+    cursor: pointer;
+    font-family: inherit;
+    text-decoration: none;
+}
+
+.hp-dropdown .dropdown-item:hover {
+    background: #EAF1FB;
+}
+
+.hp-dropdown .dropdown-item.delete-btn {
+    color: #DC2626;
+}
+
 .hp-post-text {
-    font-size: 15.5px;
+    font-size: 16.5px;
     line-height: 1.55;
     margin: 10px 0;
     color: #1E293B;
@@ -219,7 +269,7 @@
     justify-content: space-between;
     align-items: center;
     padding: 10px 0 8px;
-    font-size: 13px;
+    font-size: 14px;
     color: #64748B;
 }
 
@@ -256,7 +306,7 @@
     gap: 6px;
     padding: 9px;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: #64748B;
     background: none;
@@ -284,7 +334,7 @@
     border: 1px solid #E2E8F0;
     border-radius: 20px;
     padding: 8px 14px;
-    font-size: 13.5px;
+    font-size: 14.5px;
     color: #64748B;
     font-family: inherit;
     outline: none;
@@ -293,6 +343,30 @@
 .hp-comment-input:focus {
     outline: none;
     border-color: #3B5BDB;
+}
+
+.comment-send-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 38px;
+    height: 38px;
+    border-radius: 50%;
+    border: none;
+    background: linear-gradient(135deg, #3B5BDB, #0EA5E9 55%, #14B8A6);
+    color: #FFFFFF;
+    cursor: pointer;
+    flex-shrink: 0;
+    transition: opacity 0.15s ease;
+}
+
+.comment-send-btn:hover {
+    opacity: 0.92;
+}
+
+.comment-send-btn svg {
+    width: 18px;
+    height: 18px;
 }
 
 /* ---------- COMMENTS LIST ---------- */
@@ -307,6 +381,36 @@
     align-items: flex-start;
 }
 
+.comment-header {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.comment-delete-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 28px;
+    height: 28px;
+    border-radius: 8px;
+    border: none;
+    background: transparent;
+    cursor: pointer;
+    color: #94A3B8;
+    transition: background 0.15s ease, color 0.15s ease;
+}
+
+.comment-delete-btn:hover {
+    background: #FEE2E2;
+    color: #DC2626;
+}
+
+.comment-delete-btn svg {
+    width: 15px;
+    height: 15px;
+}
+
 .comment-bubble {
     background: #F2F6FB;
     border-radius: 14px;
@@ -315,20 +419,20 @@
 }
 
 .comment-author {
-    font-size: 13px;
+    font-size: 14px;
     font-weight: 700;
     color: #1E293B;
 }
 
 .comment-text {
-    font-size: 13.5px;
+    font-size: 14.5px;
     color: #1E293B;
     margin-top: 2px;
 }
 
 /* ---------- RIGHT SIDEBAR ---------- */
 .hp-right-title {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 700;
     color: #64748B;
     padding: 6px 10px 10px;
@@ -342,13 +446,13 @@
 }
 
 .hp-stat-num {
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 1000;
     color: #3B5BDB;
 }
 
 .hp-stat-label {
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 600;
     color: #64748B;
     margin-top: 2px;
@@ -362,8 +466,8 @@
 }
 
 .hp-req-item .hp-info { flex: 1; }
-.hp-req-item .hp-name { font-size: 14px; }
-.hp-req-item .hp-sub { font-size: 12px; color: #64748B; }
+.hp-req-item .hp-name { font-size: 15px; }
+.hp-req-item .hp-sub { font-size: 13px; color: #64748B; }
 
 .hp-req-actions { display: flex; gap: 6px; }
 
@@ -391,8 +495,8 @@
 }
 
 .hp-suggest .hp-info { flex: 1; }
-.hp-suggest .hp-name { font-size: 14px; }
-.hp-suggest .hp-sub { font-size: 12px; color: #64748B; }
+.hp-suggest .hp-name { font-size: 15px; }
+.hp-suggest .hp-sub { font-size: 13px; color: #64748B; }
 
 .hp-add-friend-btn {
     font-size: 12.5px;

@@ -8,6 +8,7 @@ body {
     font-family: 'Figtree', sans-serif;
     background: #F2F6FB;
     color: #1E293B;
+    font-size: 16px;
 }
 
 /* ---------- NAVBAR ---------- */
@@ -84,7 +85,7 @@ body {
     border: none;
     background: transparent;
     outline: none;
-    font-size: 14px;
+    font-size: 15px;
     width: 100%;
     color: #1E293B;
     font-family: inherit;
@@ -126,13 +127,13 @@ body {
 }
 
 .nav-link svg {
-    width: 22px;
-    height: 22px;
+    width: 26px;
+    height: 26px;
     stroke-width: 2.1;
 }
 
 .nav-link span {
-    font-size: 10px;
+    font-size: 12px;
     font-weight: 600;
 }
 
@@ -143,7 +144,10 @@ body {
 .nav-link.active {
     color: #3B5BDB;
     background: #EAF1FB;
+    
 }
+
+
 
 /* Right Icons */
 .nav-right {
@@ -169,8 +173,8 @@ body {
 }
 
 .icon-btn.icon-friend-req svg {
-    width: 19px;
-    height: 19px;
+    width: 24px;
+    height: 24px;
     stroke: #3B5BDB;
 }
 
@@ -179,8 +183,8 @@ body {
 }
 
 .icon-btn.icon-notif svg {
-    width: 19px;
-    height: 19px;
+    width: 24px;
+    height: 24px;
     stroke: #0EA5E9;
 }
 
@@ -254,7 +258,7 @@ body {
     width: 100%;
     text-align: left;
     padding: 10px 16px;
-    font-size: 14px;
+    font-size: 15px;
     color: #1E293B;
     text-decoration: none;
     background: none;

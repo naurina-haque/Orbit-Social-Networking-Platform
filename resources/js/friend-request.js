@@ -75,7 +75,7 @@ document.addEventListener('DOMContentLoaded', function () {
     });
 
     function updateBadgeCount(count) {
-        const badge = document.querySelector('.hp-count-badge');
+        const badge = document.querySelector('.nav-link .badge');
         if (badge) {
             if (count > 0) {
                 badge.textContent = count;

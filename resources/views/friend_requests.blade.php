@@ -24,7 +24,7 @@
                     <div class="fr-left">
 
                         <span class="hp-avatar-ring">
-                            <img src="https://i.pravatar.cc/100?img=12">
+                            <img src="{{ $request->sender->profile_photo ? asset('storage/' . $request->sender->profile_photo) : asset('profileimg.jpg') }}">
                         </span>
 
                         <div>

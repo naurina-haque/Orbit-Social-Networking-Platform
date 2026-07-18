@@ -12,9 +12,10 @@
 
         <form action="{{ route('posts.store') }}" method="POST" enctype="multipart/form-data">
             @csrf
+            
 
             <div class="cp-user-row">
-                <span class="hp-avatar-ring sm"><img src="https://i.pravatar.cc/80?img=12" alt=""></span>
+                <span class="hp-avatar-ring sm"><img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
                 <div class="cp-user-name">{{ auth()->user()->name }}</div>
             </div>
 

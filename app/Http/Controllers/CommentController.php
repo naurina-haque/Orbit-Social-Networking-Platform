@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Comment;
 use App\Models\Post;
+use App\Models\Notification;
 use Illuminate\Http\Request;
 
 class CommentController extends Controller
@@ -21,13 +22,14 @@ class CommentController extends Controller
         ]);
 
         if($post->user_id != auth()->id()) {
-        Notification::create([
-            'user_id' => $post->user_id,
-            'from_user_id' => auth()->id(),
-            'type' => 'comment',
-            'post_id' => $post->id,
-            'message' => auth()->user()->name . ' commented on your post',
-        ]);
+            Notification::create([
+                'user_id' => $post->user_id,
+                'from_user_id' => auth()->id(),
+                'type' => 'comment',
+                'post_id' => $post->id,
+                'message' => auth()->user()->name . ' commented on your post',
+            ]);
+        }
 
         return response()->json([
             'id' => $comment->id,
@@ -36,5 +38,20 @@ class CommentController extends Controller
             'count' => $post->comments()->count(),
         ]);
     }
-}
+
+    public function destroy(Request $request, Comment $comment)
+    {
+        $post = $comment->post;
+
+        if ($comment->user_id !== auth()->id() && $post->user_id !== auth()->id()) {
+            abort(403);
+        }
+
+        $comment->delete();
+
+        return response()->json([
+            'deleted' => true,
+            'count' => $post->comments()->count(),
+        ]);
+    }
 }

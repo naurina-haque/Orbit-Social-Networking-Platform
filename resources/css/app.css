@@ -5,6 +5,9 @@
 @import "./notification.css";
 @import "./friend_requests.css";
 @import "./friends.css";
+@import "./editpost.css";
+
+@import "./edit-profile.css";
 
 @tailwind base;
 @tailwind components;

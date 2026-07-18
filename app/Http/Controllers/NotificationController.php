@@ -9,6 +9,10 @@ class NotificationController extends Controller
 {
     public function index()
     {
+        Notification::where('user_id', auth()->id())
+            ->where('read', false)
+            ->update(['read' => true]);
+
         $notifications = Notification::where('user_id', auth()->id())
             ->orderBy('created_at', 'desc')
             ->get();
@@ -27,7 +31,8 @@ class NotificationController extends Controller
     public function markAllAsRead()
     {
         Notification::where('user_id', auth()->id())
-            ->update(['read' => false]);
+            ->where('read', false)
+            ->update(['read' => true]);
 
         return back();
     }

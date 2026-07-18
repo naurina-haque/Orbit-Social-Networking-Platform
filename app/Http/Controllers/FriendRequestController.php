@@ -35,10 +35,14 @@ class FriendRequestController extends Controller
     {
         $friendRequest->update(['status' => 'accepted']);
 
-        return response()->json([
-            'accepted' => true,
-            'pending_count' => auth()->user()->pendingRequests()->count(),
-        ]);
+        if (request()->expectsJson()) {
+            return response()->json([
+                'accepted' => true,
+                'pending_count' => auth()->user()->pendingRequests()->count(),
+            ]);
+        }
+
+        return back();
     }
 
     // Request decline 
@@ -46,19 +50,23 @@ class FriendRequestController extends Controller
     {
         $friendRequest->delete();
 
-        return response()->json([
-            'declined' => true,
-            'pending_count' => auth()->user()->pendingRequests()->count(),
-        ]);
+        if (request()->expectsJson()) {
+            return response()->json([
+                'declined' => true,
+                'pending_count' => auth()->user()->pendingRequests()->count(),
+            ]);
+        }
+
+        return back();
     }
     public function index()
-{
-    $pendingRequests = FriendRequest::where('receiver_id', auth()->id())
-        ->where('status', 'pending')
-        ->with('sender')
-        ->latest()
-        ->get();
+    {
+        $pendingRequests = FriendRequest::where('receiver_id', auth()->id())
+            ->where('status', 'pending')
+            ->with('sender')
+            ->latest()
+            ->get();
 
-    return view('friend_requests', compact('pendingRequests'));
-}
+        return view('friend_requests', compact('pendingRequests'));
+    }
 }

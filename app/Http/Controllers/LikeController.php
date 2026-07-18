@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Like;
 use App\Models\Post;
 use Illuminate\Http\Request;
+use App\Models\Notification;
 
 class LikeController extends Controller
 {

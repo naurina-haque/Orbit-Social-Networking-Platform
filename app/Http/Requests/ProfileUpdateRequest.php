@@ -18,6 +18,9 @@ class ProfileUpdateRequest extends FormRequest
     {
         return [
             'name' => ['required', 'string', 'max:255'],
+            'bio' => ['nullable', 'string', 'max:1000'],
+            'education' => ['nullable', 'string', 'max:255'],
+            'city' => ['nullable', 'string', 'max:255'],
             'email' => [
                 'required',
                 'string',
@@ -26,6 +29,8 @@ class ProfileUpdateRequest extends FormRequest
                 'max:255',
                 Rule::unique(User::class)->ignore($this->user()->id),
             ],
+            'profile_photo' => ['nullable', 'image', 'max:5120'],
+            'cover_photo' => ['nullable', 'image', 'max:5120'],
         ];
     }
 }

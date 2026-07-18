@@ -16,11 +16,6 @@
 
                     <h2>Friends</h2>
 
-                    <input
-                        type="text"
-                        class="friends-search"
-                        placeholder="Search friends...">
-
                 </div>
 
                 <div class="friends-grid">
@@ -38,14 +33,13 @@
                             <a href="{{ route('profile.show', $user->id) }}" class="friend-link">
 
                                 <div class="friend-avatar">
-                                    <img
-                                        src="{{ $user->profile_photo ?? 'https://i.pravatar.cc/150?u='.$user->id }}"
-                                        alt="{{ $user->name }}">
+                                <img
+                                        src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('profileimg.jpg') }}">
                                 </div>
 
                                 <div class="friend-info">
                                     <h3>{{ $user->name }}</h3>
-                                    <p>24 Mutual Friends</p>
+                                
                                 </div>
 
                             </a>

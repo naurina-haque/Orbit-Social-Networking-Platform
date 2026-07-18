@@ -14,12 +14,12 @@
         </a>
 
         <!-- Search -->
-        <form class="nav-search" action="#" method="GET">
+        <form class="nav-search" action="{{ route('people.search') }}" method="GET">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
                 <circle cx="11" cy="11" r="7"/>
                 <path d="M21 21l-4.3-4.3" stroke-linecap="round"/>
             </svg>
-            <input type="text" name="search" placeholder="Search people on Orbit">
+            <input type="text" name="search" value="{{ request('search') }}" placeholder="Search people on Orbit">
         </form>
 
         <!-- Center Links -->
@@ -31,7 +31,7 @@
                 </svg>
             </a>
 
-            <a href="{{ route('friends') }}" class="nav-link">
+            <a href="{{ route('friends') }}" class="nav-link {{ request()->routeIs('friends') ? 'active' : '' }}">
                 <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
                     <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/>
                     <circle cx="10" cy="7" r="4"/>
@@ -41,20 +41,24 @@
             </a>
 
              <!-- Friend Requests -->
-            <a href="{{ route('friend-requests') }}" class="nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M20 8v6M23 11h-6"/><path d="M9 11a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-1a7 7 0 0114 0v1"/></svg>
-                <span class="badge">5</span>
+             <a href="{{ route('friend-requests') }}" class="nav-link {{ request()->routeIs('friend-requests') ? 'active' : '' }}">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M20 8v6M23 11h-6"/><path d="M9 11a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-1a7 7 0 0114 0v1"/></svg>
+                 @if ($friendRequestCount > 0)
+                     <span class="badge">{{ $friendRequestCount }}</span>
+                 @endif
 
-            </a>
+             </a>
 
-            <!-- Notifications -->
-            <a href="{{ route('notifications') }}" class="nav-link">
-                <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                    <path d="M13.7 21a2 2 0 01-3.4 0"/>
-                </svg>
-                <span class="badge">5</span>
-                
-            </a>
+             <!-- Notifications -->
+             <a href="{{ route('notifications') }}" class="nav-link {{ request()->routeIs('notifications') ? 'active' : '' }}">
+                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
+                     <path d="M13.7 21a2 2 0 01-3.4 0"/>
+                 </svg>
+                 @if ($notificationCount > 0)
+                     <span class="badge">{{ $notificationCount }}</span>
+                 @endif
+                 
+             </a>
         </div>
 
         <!-- Right Icons -->
@@ -66,7 +70,7 @@
             <div class="profile-menu">
                 <button class="profile-btn" onclick="document.getElementById('profileDropdown').classList.toggle('show')">
                     <span class="avatar-ring">
-                        <img src="https://i.pravatar.cc/80?img=12" alt="profile">
+                        <img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt="profile">
                     </span>
                 </button>
                 <div class="dropdown" id="profileDropdown">

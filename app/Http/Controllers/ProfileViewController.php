@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Post;
 use App\Models\User;
 use App\Models\FriendRequest;
+use App\Models\SavedPost;
 
 class ProfileViewController extends Controller
 {
@@ -27,15 +28,24 @@ class ProfileViewController extends Controller
 
         $friends = User::whereIn('id', $friendIds)->get();
 
+        $savedPosts = SavedPost::where('user_id', $user->id)
+            ->with(['post.user', 'post.likes', 'post.comments.user', 'post.shares'])
+            ->latest()
+            ->get()
+            ->pluck('post')
+            ->filter();
+
         $friendsCount = $friends->count();
         $postsCount = $posts->count();
+        $savedPostsCount = $savedPosts->count();
 
         $isOwnProfile = auth()->id() === $user->id;
         $isFriend = $isOwnProfile ? false : auth()->user()->isFriendWith($user->id);
         $hasSentRequest = $isOwnProfile ? false : auth()->user()->hasSentRequestTo($user->id);
 
         return view('profile-view', compact(
-            'user', 'posts', 'friends', 'friendsCount', 'postsCount',
+            'user', 'posts', 'friends', 'savedPosts',
+            'friendsCount', 'postsCount', 'savedPostsCount',
             'isOwnProfile', 'isFriend', 'hasSentRequest'
         ));
     }

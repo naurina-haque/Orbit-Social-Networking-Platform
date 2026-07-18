@@ -1,0 +1,78 @@
+.fr-item {
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 14px;
+    border-bottom: 1px solid #E2E8F0;
+}
+
+.fr-item:last-child {
+    border-bottom: none;
+}
+
+.fr-left {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    flex: 1;
+    min-width: 0;
+}
+
+.fr-left .hp-name {
+    font-size: 15px;
+    font-weight: 700;
+    color: #1E293B;
+}
+
+.fr-left .hp-sub {
+    font-size: 13px;
+    color: #64748B;
+    margin-top: 2px;
+}
+
+.fr-actions {
+    display: flex;
+    gap: 8px;
+    flex-shrink: 0;
+}
+
+.fr-accept {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: none;
+    background: linear-gradient(135deg, #3B5BDB, #0EA5E9 55%, #14B8A6);
+    color: #fff;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: opacity 0.15s ease;
+}
+
+.fr-accept:hover {
+    opacity: 0.92;
+}
+
+.fr-decline {
+    padding: 8px 16px;
+    border-radius: 10px;
+    border: 1px solid #E2E8F0;
+    background: #F2F6FB;
+    color: #64748B;
+    font-size: 14px;
+    font-weight: 700;
+    cursor: pointer;
+    font-family: inherit;
+    transition: background 0.15s ease;
+}
+
+.fr-decline:hover {
+    background: #EAF1FB;
+}
+
+.fr-empty {
+    padding: 40px 20px;
+    text-align: center;
+    color: #64748B;
+    font-size: 15px;
+}

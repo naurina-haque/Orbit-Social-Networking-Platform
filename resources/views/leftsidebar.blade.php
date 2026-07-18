@@ -1,9 +1,8 @@
 <aside class="hp-sidebar">
                 <a href="{{ route('profile.edit') }}" class="hp-profile-shortcut">
-                    <span class="hp-avatar-ring "><img src="https://i.pravatar.cc/80?img=12" alt=""></span>
+                    <span class="hp-avatar-ring "><img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
                     <div>
                         <div class="hp-name">{{ auth()->user()->name }}</div>
-                        <div class="hp-handle">{{ Str::slug(auth()->user()->name) }}</div>
                     </div>
                 </a>
 
@@ -15,7 +14,7 @@
                     </span>
                     Home
                 </a>
-                <a href="#" class="hp-nav-item">
+                <a href="{{ route('profile.show', auth()->id()) }}" class="hp-nav-item">
                     <span class="hp-ic" style="background:#E8F7F4">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#14B8A6"><circle cx="12" cy="8" r="4"/><path d="M4 21v-1a8 8 0 0116 0v1"/></svg>
                     </span>
@@ -34,7 +33,7 @@
                     Friend Requests
                     
                 </a>
-                <a href="#" class="hp-nav-item">
+                <a href="{{ route('saved-posts') }}" class="hp-nav-item {{ request()->routeIs('saved-posts') ? 'active' : '' }}">
                     <span class="hp-ic" style="background:#FEF6E7">
                         <svg viewBox="0 0 24 24" fill="none" stroke="#E0A94A"><path d="M19 21l-7-5-7 5V5a2 2 0 012-2h10a2 2 0 012 2z"/></svg>
                     </span>

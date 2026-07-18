@@ -152,7 +152,7 @@
 }
 
 .cp-add-label {
-    font-size: 14px;
+    font-size: 15px;
     font-weight: 600;
     color: #1E293B;
 }
@@ -181,7 +181,7 @@
     border: none;
     padding: 12px;
     border-radius: 10px;
-    font-size: 15px;
+    font-size: 16px;
     font-weight: 700;
     cursor: pointer;
     font-family: inherit;
