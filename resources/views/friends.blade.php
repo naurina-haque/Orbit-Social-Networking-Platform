@@ -69,6 +69,9 @@
 
         </main>
 
+        {{-- RIGHT SIDEBAR --}}
+        @include('rightsidebar')
+
     </div>
 
 </div>

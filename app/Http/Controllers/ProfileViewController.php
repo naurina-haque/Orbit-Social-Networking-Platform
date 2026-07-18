@@ -6,15 +6,32 @@ use App\Models\Post;
 use App\Models\User;
 use App\Models\FriendRequest;
 use App\Models\SavedPost;
+use App\Models\Share;
+use Illuminate\Support\Collection;
 
 class ProfileViewController extends Controller
 {
     public function show(User $user)
     {
-        $posts = Post::where('user_id', $user->id)
-            ->with(['user', 'likes', 'comments.user', 'shares'])
+        $ownPosts = Post::where('user_id', $user->id)
+            ->with(['user', 'likes', 'comments.user', 'shares.user'])
             ->latest()
             ->get();
+
+        $sharedPosts = Post::whereHas('shares', function ($q) use ($user) {
+                $q->where('user_id', $user->id);
+            })
+            ->with(['user', 'likes', 'comments.user', 'shares.user'])
+            ->latest()
+            ->get();
+
+        $posts = $ownPosts->merge($sharedPosts)->unique('id')->sortByDesc(function ($post) use ($user) {
+            if ($post->user_id === $user->id) {
+                return $post->created_at;
+            }
+            $share = $post->shares->firstWhere('user_id', $user->id);
+            return $share ? $share->created_at : $post->created_at;
+        })->values();
 
         $friendIds = FriendRequest::where('status', 'accepted')
             ->where(function ($q) use ($user) {

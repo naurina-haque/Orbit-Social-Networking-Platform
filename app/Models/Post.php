@@ -41,6 +41,11 @@ class Post extends Model
     return $this->shares()->where('user_id', $userId)->exists();
    }
 
+   public function sharedBy($userId)
+   {
+       return $this->shares()->where('user_id', $userId)->first();
+   }
+
     public function isSavedBy($userId)
     {
         return $this->savedBy()->where('user_id', $userId)->exists();

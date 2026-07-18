@@ -101,18 +101,26 @@
                 @endif
 
                 @forelse ($posts as $post)
-                    <article class="hp-card hp-post" style="margin-top:16px;">
-                        <div class="hp-post-head">
-                            <span class="hp-avatar-ring sm">
-                                <img src="{{ $post->user->profile_photo ? asset('storage/' . $post->user->profile_photo) : asset('profileimg.jpg') }}" alt="">
-                            </span>
+                    @php
+                        $share = $post->sharedBy($user->id);
+                    @endphp
+                    @if ($share && $post->user_id !== $user->id)
+                        @include('shared-post-card', ['post' => $post, 'sharedBy' => $user])
+                    @else
+                        <article class="hp-card hp-post" style="margin-top:16px;">
+                            <div class="hp-post-head">
+                                <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                                    <span class="hp-avatar-ring sm">
+                                        <img src="{{ $post->user->profile_photo ? asset('storage/' . $post->user->profile_photo) : asset('profileimg.jpg') }}" alt="">
+                                    </span>
 
-                            <div class="hp-post-meta">
-                                <div class="hp-post-name">{{ $post->user->name }}</div>
-                                <div class="hp-post-time">{{ $post->created_at->diffForHumans() }}</div>
-                            </div>
+                                    <div class="hp-post-meta">
+                                        <div class="hp-post-name">{{ $post->user->name }}</div>
+                                        <div class="hp-post-time">{{ $post->created_at->diffForHumans() }}</div>
+                                    </div>
+                                </a>
 
-                            <div class="hp-post-menu" data-post-menu>
+                                <div class="hp-post-menu" data-post-menu>
                                 <button type="button" class="hp-post-more" data-post-menu-button aria-expanded="false" aria-label="Post actions">
                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="5" cy="12" r="1.6"/><circle cx="12" cy="12" r="1.6"/><circle cx="19" cy="12" r="1.6"/></svg>
                                 </button>
@@ -166,12 +174,12 @@
                                 data-post-id="{{ $post->id }}"
                                 data-like-url="{{ route('posts.like', $post->id) }}"
                             >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M12 21s-7-4.5-9.5-9C1 8 3 4 7 4c2 0 4 1.5 5 3 1-1.5 3-3 5-3 4 0 6 4 4.5 8-2.5 4.5-9.5 9-9.5 9z"/></svg>
+                                <img src="{{ $post->isLikedBy(auth()->id()) ? asset('storage/icons/heart(1).png') : asset('storage/icons/heart.png') }}" class="action-icon" alt="Like">
                                 <span class="like-text">{{ $post->isLikedBy(auth()->id()) ? 'Liked' : 'Like' }}</span>
                             </button>
 
                             <button class="hp-post-action">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M21 11.5a8.38 8.38 0 01-4.7 7.6 8.38 8.38 0 01-3.8.9 8.5 8.5 0 01-3.8-.9L3 21l1.9-5.7a8.38 8.38 0 01-.9-3.8 8.5 8.5 0 014.7-7.6 8.38 8.38 0 013.8-.9h.5a8.48 8.48 0 018 8v.5z"/></svg>
+                                <img src="{{ asset('storage/icons/chat.png') }}" class="action-icon" alt="Comment">
                                 Comment
                             </button>
 
@@ -182,7 +190,7 @@
                                 data-share-url="{{ route('posts.share', $post->id) }}"
                                 {{ $post->isSharedBy(auth()->id()) ? 'disabled' : '' }}
                             >
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2"><path d="M4 12v7a1 1 0 001 1h14a1 1 0 001-1v-7M16 6l-4-4-4 4M12 2v14"/></svg>
+                                <img src="{{ $post->isSharedBy(auth()->id()) ? asset('storage/icons/share(1).png') : asset('storage/icons/share.png') }}" class="action-icon" alt="Share">
                                 <span class="share-text">{{ $post->isSharedBy(auth()->id()) ? 'Shared' : 'Share' }}</span>
                             </button>
                         </div>
@@ -190,10 +198,12 @@
                         <div class="comments-list" id="comments-{{ $post->id }}">
                             @foreach ($post->comments as $comment)
                                 <div class="comment-item" data-comment-id="{{ $comment->id }}">
-                                    <span class="hp-avatar-ring xs"><img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                                    <a href="{{ route('profile.show', $comment->user->id) }}" style="text-decoration:none;">
+                                        <span class="hp-avatar-ring xs"><img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                                    </a>
                                     <div class="comment-bubble">
                                         <div class="comment-header">
-                                            <div class="comment-author">{{ $comment->user->name }}</div>
+                                            <a href="{{ route('profile.show', $comment->user->id) }}" class="comment-author" style="text-decoration:none; color:inherit;">{{ $comment->user->name }}</a>
                                             @if ($comment->user_id === auth()->id() || $post->user_id === auth()->id())
                                                 <button type="button" class="comment-delete-btn" data-delete-url="{{ route('comments.destroy', $comment->id) }}" data-comment-id="{{ $comment->id }}" data-post-id="{{ $post->id }}">
                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -218,12 +228,11 @@
                                 data-comment-url="{{ route('comments.store', $post->id) }}"
                             >
                             <button type="button" class="comment-send-btn" data-post-id="{{ $post->id }}" data-comment-url="{{ route('comments.store', $post->id) }}">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                                </svg>
+                                <img src="{{ asset('storage/icons/send.png') }}" class="comment-send-icon" alt="Send">
                             </button>
                         </div>
                     </article>
+                @endif
                 @empty
                     <div class="hp-card" style="padding:40px; text-align:center; margin-top:16px; color:#64748B;">
                         No posts yet.
@@ -254,14 +263,16 @@
                 @forelse ($savedPosts as $post)
                     <article class="hp-card hp-post" style="margin-top:16px;">
                         <div class="hp-post-head">
-                            <span class="hp-avatar-ring sm">
-                                <img src="{{ $post->user->profile_photo ? asset('storage/' . $post->user->profile_photo) : asset('profileimg.jpg') }}" alt="">
-                            </span>
+                            <a href="{{ route('profile.show', $post->user->id) }}" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                                <span class="hp-avatar-ring sm">
+                                    <img src="{{ $post->user->profile_photo ? asset('storage/' . $post->user->profile_photo) : asset('profileimg.jpg') }}" alt="">
+                                </span>
 
-                            <div class="hp-post-meta">
-                                <div class="hp-post-name">{{ $post->user->name }}</div>
-                                <div class="hp-post-time">{{ $post->created_at->diffForHumans() }}</div>
-                            </div>
+                                <div class="hp-post-meta">
+                                    <div class="hp-post-name">{{ $post->user->name }}</div>
+                                    <div class="hp-post-time">{{ $post->created_at->diffForHumans() }}</div>
+                                </div>
+                            </a>
 
                             <div class="hp-post-menu" data-post-menu>
                                 <button type="button" class="hp-post-more" data-post-menu-button aria-expanded="false" aria-label="Post actions">
@@ -341,10 +352,12 @@
                         <div class="comments-list" id="comments-{{ $post->id }}">
                             @foreach ($post->comments as $comment)
                                 <div class="comment-item" data-comment-id="{{ $comment->id }}">
-                                    <span class="hp-avatar-ring xs"><img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                                    <a href="{{ route('profile.show', $comment->user->id) }}" style="text-decoration:none;">
+                                        <span class="hp-avatar-ring xs"><img src="{{ $comment->user->profile_photo ? asset('storage/' . $comment->user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                                    </a>
                                     <div class="comment-bubble">
                                         <div class="comment-header">
-                                            <div class="comment-author">{{ $comment->user->name }}</div>
+                                            <a href="{{ route('profile.show', $comment->user->id) }}" class="comment-author" style="text-decoration:none; color:inherit;">{{ $comment->user->name }}</a>
                                             @if ($comment->user_id === auth()->id() || $post->user_id === auth()->id())
                                                 <button type="button" class="comment-delete-btn" data-delete-url="{{ route('comments.destroy', $comment->id) }}" data-comment-id="{{ $comment->id }}" data-post-id="{{ $post->id }}">
                                                     <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
@@ -369,9 +382,7 @@
                                 data-comment-url="{{ route('comments.store', $post->id) }}"
                             >
                             <button type="button" class="comment-send-btn" data-post-id="{{ $post->id }}" data-comment-url="{{ route('comments.store', $post->id) }}">
-                                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
-                                    <path d="M22 2L11 13M22 2l-7 20-4-9-9-4 20-7z"/>
-                                </svg>
+                                <img src="{{ asset('storage/icons/send.png') }}" class="comment-send-icon" alt="Send">
                             </button>
                         </div>
                     </article>

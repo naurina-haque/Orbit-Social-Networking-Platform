@@ -6,7 +6,7 @@
         {{-- LEFT SIDEBAR --}}
         @include('leftsidebar')
 
-        {{-- RIGHT SIDEBAR --}}
+    
 
         {{-- CENTER --}}
         <main>
@@ -22,22 +22,25 @@
                 <div class="fr-item">
 
                     <div class="fr-left">
+                        <a href="{{ route('profile.show', $request->sender->id) }}" style="text-decoration:none;">
+                            <span class="hp-avatar-ring">
+                                <img src="{{ $request->sender->profile_photo ? asset('storage/' . $request->sender->profile_photo) : asset('profileimg.jpg') }}">
+                            </span>
+                        </a>
 
-                        <span class="hp-avatar-ring">
-                            <img src="{{ $request->sender->profile_photo ? asset('storage/' . $request->sender->profile_photo) : asset('profileimg.jpg') }}">
-                        </span>
+                        <a href="{{ route('profile.show', $request->sender->id) }}" style="text-decoration:none;">
+                            <div>
 
-                        <div>
+                                <div class="hp-name">
+                                    {{ $request->sender->name }}
+                                </div>
 
-                            <div class="hp-name">
-                                {{ $request->sender->name }}
+                                <div class="hp-sub">
+                                    Wants to be your friend
+                                </div>
+
                             </div>
-
-                            <div class="hp-sub">
-                                Wants to be your friend
-                            </div>
-
-                        </div>
+                        </a>
 
                     </div>
 
@@ -82,6 +85,8 @@
             </div>
 
         </main>
+            {{-- RIGHT SIDEBAR --}}
+        @include('rightsidebar')
 
     </div>
 </div>

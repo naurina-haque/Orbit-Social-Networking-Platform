@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\FriendRequest;
 use App\Models\User;
+use App\Models\Post;
 use Illuminate\Http\Request;
 
 class FriendRequestController extends Controller
@@ -67,6 +68,30 @@ class FriendRequestController extends Controller
             ->latest()
             ->get();
 
-        return view('friend_requests', compact('pendingRequests'));
+        $suggestedUsers = User::where('id', '!=', auth()->id())
+            ->whereDoesntHave('sentRequests', function ($q) {
+                $q->where('receiver_id', auth()->id());
+            })
+            ->whereDoesntHave('receivedRequests', function ($q) {
+                $q->where('sender_id', auth()->id());
+            })
+            ->limit(5)
+            ->get();
+
+        $friendsCount = FriendRequest::where('status', 'accepted')
+            ->where(function ($q) {
+                $q->where('sender_id', auth()->id())
+                  ->orWhere('receiver_id', auth()->id());
+            })
+            ->count();
+
+        $postsCount = Post::where('user_id', auth()->id())->count();
+
+        return view('friend_requests', compact(
+            'pendingRequests',
+            'suggestedUsers',
+            'friendsCount',
+            'postsCount'
+        ));
     }
 }

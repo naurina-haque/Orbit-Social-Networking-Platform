@@ -9,7 +9,7 @@
 
 @import "./edit-profile.css";
 
-@tailwind base;
-@tailwind components;
-@tailwind utilities;
+@import "./auth.css";
+
+
 

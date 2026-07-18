@@ -3,6 +3,8 @@
 namespace App\Http\Controllers;
 
 use App\Models\FriendRequest;
+use App\Models\User;
+use App\Models\Post;
 
 class FriendController extends Controller
 {
@@ -16,12 +18,40 @@ class FriendController extends Controller
             ->with(['sender', 'receiver'])
             ->get();
 
-        return view('friends', compact('friends'));
-    }
-    public function remove(FriendRequest $friendRequest)
-{
-    $friendRequest->delete();
+        $pendingRequests = auth()->user()->pendingRequests()->with('sender')->latest()->take(5)->get();
 
-    return back()->with('success', 'Friend removed successfully.');
-}
+        $suggestedUsers = User::where('id', '!=', auth()->id())
+            ->whereDoesntHave('sentRequests', function ($q) {
+                $q->where('receiver_id', auth()->id());
+            })
+            ->whereDoesntHave('receivedRequests', function ($q) {
+                $q->where('sender_id', auth()->id());
+            })
+            ->limit(5)
+            ->get();
+
+        $friendsCount = FriendRequest::where('status', 'accepted')
+            ->where(function ($q) {
+                $q->where('sender_id', auth()->id())
+                  ->orWhere('receiver_id', auth()->id());
+            })
+            ->count();
+
+        $postsCount = Post::where('user_id', auth()->id())->count();
+
+        return view('friends', compact(
+            'friends',
+            'pendingRequests',
+            'suggestedUsers',
+            'friendsCount',
+            'postsCount'
+        ));
+    }
+
+    public function remove(FriendRequest $friendRequest)
+    {
+        $friendRequest->delete();
+
+        return back()->with('success', 'Friend removed successfully.');
+    }
 }

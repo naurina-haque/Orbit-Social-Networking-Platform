@@ -23,20 +23,19 @@
 
                 @else
 
-                    <form action="{{ route('notifications.markAllRead') }}" method="POST" style="margin-bottom:20px;">
-                        @csrf
-                        <button class="mark-all-btn">
-                            Mark All as Read
-                        </button>
-                    </form>
-
                     @foreach($notifications as $notification)
 
                         <div class="notification-card {{ $notification->read ? '' : 'unread' }}">
 
+                            <a href="{{ route('profile.show', $notification->fromUser->id) }}" style="text-decoration:none; flex-shrink:0;">
+                                <span class="hp-avatar-ring xs"><img src="{{ $notification->fromUser->profile_photo ? asset('storage/' . $notification->fromUser->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                            </a>
+
                             <div class="notification-content">
 
-                                <h4>{{ $notification->fromUser->name }}</h4>
+                                <a href="{{ route('profile.show', $notification->fromUser->id) }}" style="text-decoration:none; color:inherit;">
+                                    <h4>{{ $notification->fromUser->name }}</h4>
+                                </a>
 
                                 <p>{{ $notification->message }}</p>
 
@@ -64,6 +63,9 @@
             </div>
 
         </main>
+
+        {{-- RIGHT SIDEBAR --}}
+        @include('rightsidebar')
 
     </div>
 </div>

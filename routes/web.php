@@ -25,9 +25,43 @@ Route::get('/', function () {
 });
 
 Route::get('/home', function () {
-    $posts = Post::with(['user', 'likes', 'comments.user', 'shares'])->latest()->get();
+    $friendIds = FriendRequest::where('status', 'accepted')
+        ->where(function ($q) {
+            $q->where('sender_id', auth()->id())
+              ->orWhere('receiver_id', auth()->id());
+        })
+        ->get()
+        ->map(function ($req) {
+            return $req->sender_id === auth()->id() ? $req->receiver_id : $req->sender_id;
+        });
 
-    $pendingRequests = auth()->user()->pendingRequests()->with('sender')->get();
+    $ownPosts = Post::where('user_id', auth()->id())
+        ->with(['user', 'likes', 'comments.user', 'shares.user'])
+        ->latest()
+        ->get();
+
+    $friendPosts = Post::whereIn('user_id', $friendIds)
+        ->with(['user', 'likes', 'comments.user', 'shares.user'])
+        ->latest()
+        ->get();
+
+    $sharedPosts = Post::whereHas('shares', function ($q) use ($friendIds) {
+            $q->whereIn('user_id', $friendIds);
+        })
+        ->with(['user', 'likes', 'comments.user', 'shares.user'])
+        ->latest()
+        ->get();
+
+    $posts = $ownPosts->merge($friendPosts)->merge($sharedPosts)->unique('id')->sortByDesc('created_at')->values();
+
+    foreach ($posts as $post) {
+        $share = $post->shares->firstWhere('user_id', auth()->id());
+        if ($share) {
+            $post->shared_by = $share->user;
+        }
+    }
+
+    $pendingRequests = auth()->user()->pendingRequests()->with('sender')->latest()->take(5)->get();
 
     $suggestedUsers = User::where('id', '!=', auth()->id())
         ->whereDoesntHave('sentRequests', function ($q) {
@@ -107,7 +141,10 @@ Route::middleware('auth')->group(function () {
 });
 
 require __DIR__.'/auth.php';
-Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware('auth');
+Route::post('/posts', [PostController::class, 'store'])->name('posts.store')->middleware(['auth', \App\Http\Middleware\EnsureProfileIsComplete::class]);
+Route::get('/posts/{post}/edit', [PostController::class, 'edit'])->middleware('auth')->name('posts.edit');
+Route::put('/posts/{post}', [PostController::class, 'update'])->middleware('auth')->name('posts.update');
+Route::delete('/posts/{post}', [PostController::class, 'destroy'])->middleware('auth')->name('posts.destroy');
 Route::post('/posts/{post}/like', [LikeController::class, 'toggle'])->name('posts.like')->middleware('auth');
 Route::post('/posts/{post}/comments', [CommentController::class, 'store'])->name('comments.store')->middleware('auth');
 Route::delete('/comments/{comment}', [CommentController::class, 'destroy'])->name('comments.destroy')->middleware('auth');

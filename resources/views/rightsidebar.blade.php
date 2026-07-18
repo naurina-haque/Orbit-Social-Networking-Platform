@@ -14,7 +14,9 @@
                 <div class="hp-card" style="padding:6px;margin-bottom:16px;" id="friend-requests-box">
                     @forelse ($pendingRequests as $request)
                         <div class="hp-req-item" id="request-{{ $request->id }}">
-                             <span class="hp-avatar-ring xs"><img src="{{ $request->sender->profile_photo ? asset('storage/' . $request->sender->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                            <a href="{{ route('profile.show', $request->sender->id) }}" style="text-decoration:none;">
+                                <span class="hp-avatar-ring xs"><img src="{{ $request->sender->profile_photo ? asset('storage/' . $request->sender->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                            </a>
                             <div class="hp-info">
                                 <div class="hp-name">{{ $request->sender->name }}</div>
                                 <div class="hp-sub">Wants to be friends</div>
@@ -47,19 +49,21 @@
                 <div class="hp-card" style="padding:6px;">
                     @forelse ($suggestedUsers as $user)
                         <div class="hp-suggest" id="suggest-{{ $user->id }}">
-                             <span class="hp-avatar-ring xs"><img src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
-                            <div class="hp-info">
-                                <div class="hp-name">{{ $user->name }}</div>
-                                <div class="hp-sub">Orbit user</div>
-                            </div>
-                            <button
-                                type="button"
-                                class="hp-add-friend-btn add-friend-btn"
-                                data-user-id="{{ $user->id }}"
-                                data-send-url="{{ route('friend-request.send', $user->id) }}"
-                            >
-                                Add Friend
-                            </button>
+                            <a href="{{ route('profile.show', $user->id) }}" style="text-decoration:none; display:flex; align-items:center; gap:10px; flex:1; min-width:0;">
+                                <span class="hp-avatar-ring xs"><img src="{{ $user->profile_photo ? asset('storage/' . $user->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                                <div class="hp-info">
+                                    <div class="hp-name">{{ $user->name }}</div>
+                                    <div class="hp-sub">Orbit user</div>
+                                </div>
+                            </a>
+                             <button
+                                 type="button"
+                                 class="hp-add-friend-btn add-friend-btn"
+                                 data-user-id="{{ $user->id }}"
+                                 data-send-url="{{ route('friend-request.send', $user->id) }}"
+                             >
+                                 Add Friend
+                             </button>
                         </div>
                     @empty
                         <div style="padding:14px; text-align:center; color:#64748B; font-size:13px;">No suggestions right now</div>

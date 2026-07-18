@@ -3,6 +3,12 @@
     <p class="ep-desc">Update your account's profile information and email address.</p>
 </div>
 
+@if (session('error'))
+    <div class="ep-error" style="margin-bottom:18px;">
+        {{ session('error') }}
+    </div>
+@endif
+
 <form method="POST" action="{{ route('profile.update') }}" enctype="multipart/form-data">
     @csrf
     @method('PATCH')

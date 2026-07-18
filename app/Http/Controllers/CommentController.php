@@ -22,13 +22,17 @@ class CommentController extends Controller
         ]);
 
         if($post->user_id != auth()->id()) {
-            Notification::create([
-                'user_id' => $post->user_id,
-                'from_user_id' => auth()->id(),
-                'type' => 'comment',
-                'post_id' => $post->id,
-                'message' => auth()->user()->name . ' commented on your post',
-            ]);
+            try {
+                Notification::create([
+                    'user_id' => $post->user_id,
+                    'from_user_id' => auth()->id(),
+                    'type' => 'comment',
+                    'post_id' => $post->id,
+                    'message' => auth()->user()->name . ' commented on your post',
+                ]);
+            } catch (\Throwable $e) {
+                \Log::error('Comment notification failed: ' . $e->getMessage());
+            }
         }
 
         return response()->json([

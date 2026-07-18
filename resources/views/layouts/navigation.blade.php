@@ -21,28 +21,21 @@
             </svg>
             <input type="text" name="search" value="{{ request('search') }}" placeholder="Search people on Orbit">
         </form>
+       
 
         <!-- Center Links -->
         <div class="nav-links">
             <a href="{{ route('home') }}" class="nav-link {{ request()->routeIs('home') ? 'active' : '' }}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M3 11.5L12 4l9 7.5"/>
-                    <path d="M5 10v9a1 1 0 001 1h4v-6h4v6h4a1 1 0 001-1v-9"/>
-                </svg>
+                <img src="{{ request()->routeIs('home') ? asset('storage/icons/home(1).png') : asset('storage/icons/home.png') }}" class="nav-icon" alt="Home">
             </a>
 
             <a href="{{ route('friends') }}" class="nav-link {{ request()->routeIs('friends') ? 'active' : '' }}">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round">
-                    <path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/>
-                    <circle cx="10" cy="7" r="4"/>
-                    <path d="M23 21v-2a4 4 0 00-3-3.87"/>
-                    <path d="M16 3.13a4 4 0 010 7.75"/>
-                </svg>
+                <img src="{{ request()->routeIs('friends') ? asset('storage/icons/friends(1).png') : asset('storage/icons/friends.png') }}" class="nav-icon" alt="Friends">
             </a>
 
              <!-- Friend Requests -->
              <a href="{{ route('friend-requests') }}" class="nav-link {{ request()->routeIs('friend-requests') ? 'active' : '' }}">
-                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M20 8v6M23 11h-6"/><path d="M9 11a4 4 0 100-8 4 4 0 000 8z"/><path d="M1 21v-1a7 7 0 0114 0v1"/></svg>
+                 <img src="{{ request()->routeIs('friend-requests') ? asset('storage/icons/user(2).png') : asset('storage/icons/user(1).png') }}" class="nav-icon" alt="Friend Requests">
                  @if ($friendRequestCount > 0)
                      <span class="badge">{{ $friendRequestCount }}</span>
                  @endif
@@ -51,9 +44,7 @@
 
              <!-- Notifications -->
              <a href="{{ route('notifications') }}" class="nav-link {{ request()->routeIs('notifications') ? 'active' : '' }}">
-                 <svg viewBox="0 0 24 24" fill="none" stroke="#3B5BDB"><path d="M18 8a6 6 0 00-12 0c0 7-3 9-3 9h18s-3-2-3-9"/>
-                     <path d="M13.7 21a2 2 0 01-3.4 0"/>
-                 </svg>
+                 <img src="{{ request()->routeIs('notifications') ? asset('storage/icons/notification(1).png') : asset('storage/icons/notification.png') }}" class="nav-icon" alt="Notifications">
                  @if ($notificationCount > 0)
                      <span class="badge">{{ $notificationCount }}</span>
                  @endif
@@ -64,7 +55,7 @@
         <!-- Right Icons -->
         <div class="nav-right">
 
-           
+            
 
             <!-- Profile Dropdown -->
             <div class="profile-menu">

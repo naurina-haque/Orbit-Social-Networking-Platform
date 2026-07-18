@@ -15,8 +15,10 @@
             
 
             <div class="cp-user-row">
-                <span class="hp-avatar-ring sm"><img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
-                <div class="cp-user-name">{{ auth()->user()->name }}</div>
+                <a href="{{ route('profile.show', auth()->id()) }}" style="text-decoration:none; display:flex; align-items:center; gap:10px;">
+                    <span class="hp-avatar-ring sm"><img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
+                    <div class="cp-user-name">{{ auth()->user()->name }}</div>
+                </a>
             </div>
 
             <textarea

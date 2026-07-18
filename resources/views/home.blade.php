@@ -9,7 +9,7 @@
             <main>
 
                 <!-- Composer -->
-                <section class="hp-card hp-composer">
+                <section class="hp-card hp-composer" style="margin-top:16px;">
                     <div class="hp-composer-top">
                         <span class="hp-avatar-ring"><img src="{{ auth()->user()->profile_photo ? asset('storage/' . auth()->user()->profile_photo) : asset('profileimg.jpg') }}" alt=""></span>
                         <a href="#createPostModal" class="hp-composer-input">What's on your mind, {{ explode(' ', auth()->user()->name)[0] }}?</a>
@@ -27,11 +27,19 @@
                     </div>
                 </section>
 
+                @include('create_post_modal')
+
                 @forelse ($posts as $post)
-                    @include('post-card', ['post' => $post])
+                    @if (isset($post->shared_by) && $post->user_id !== auth()->id())
+                        @include('shared-post-card', ['post' => $post, 'sharedBy' => $post->shared_by])
+                    @else
+                        @include('post-card', ['post' => $post])
+                    @endif
                 @empty
-                    <div class="hp-card" style="padding:20px; text-align:center; color:#64748B;">
-                        No posts to display.
+                    <div class="hp-card" style="padding:30px; text-align:center; color:#64748B;">
+                        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" style="width:48px;height:48px;margin-bottom:12px;color:#94A3B8;"><path d="M17 21v-2a4 4 0 00-4-4H7a4 4 0 00-4 4v2"/><circle cx="10" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87"/><path d="M16 3.13a4 4 0 010 7.75"/></svg>
+                        <p style="font-size:16px;font-weight:600;color:#1E293B;margin-bottom:6px;">No posts from friends yet</p>
+                        <p style="font-size:14px;color:#64748B;">Add some friends or wait for them to post something.</p>
                     </div>
                 @endforelse
 
@@ -41,5 +49,5 @@
             @include('rightsidebar')
         </div>
     </div>
-        @include('create_post_modal')
+     
 </x-app-layout>

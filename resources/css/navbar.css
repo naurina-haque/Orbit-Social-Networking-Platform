@@ -116,9 +116,9 @@ body {
     display: flex;
     flex-direction: column;
     align-items: center;
-    gap: 2px;
-    width: 58px;
-    height: 50px;
+    gap: 10px;
+    width: 48px;
+    height: 48px;
     justify-content: center;
     border-radius: 12px;
     color: #64748B;
@@ -127,9 +127,16 @@ body {
 }
 
 .nav-link svg {
-    width: 26px;
-    height: 26px;
+    width: 18px;
+    height: 18px;
     stroke-width: 2.1;
+}
+
+.nav-icon {
+    width: 25px;
+    height: 25px;
+    display: block;
+    object-fit: contain;
 }
 
 .nav-link span {
@@ -221,18 +228,18 @@ body {
     width: 40px;
     height: 40px;
     border-radius: 50%;
-    padding: 2px;
-    background: linear-gradient(135deg, #3B5BDB, #0EA5E9 55%, #14B8A6);
     display: flex;
     align-items: center;
     justify-content: center;
+    overflow: hidden;
 }
 
 .avatar-ring img {
     width: 100%;
     height: 100%;
     border-radius: 50%;
-    border: 2px solid #FFFFFF;
+    display: block;
+    object-fit: cover;
 }
 
 .dropdown {
